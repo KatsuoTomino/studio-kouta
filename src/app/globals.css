@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+@theme {
+  /* spacing の md(12px) と衝突しないよう、コンテンツ幅は別トークンで定義 */
+  --max-width-content: 28rem;
+  --animate-hero-scroll: hero-scroll 48s linear infinite;
+
+  @keyframes hero-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(20px, -15px) rotate(5deg);
+  }
+  66% {
+    transform: translate(-10px, 10px) rotate(-3deg);
+  }
+}
+
+@keyframes bounce-gentle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-surface-soft font-sans text-body antialiased;
+  }
+}
+
+@layer utilities {
+  .animate-float-slow {
+    animation: float-slow 12s ease-in-out infinite;
+  }
+
+  .animate-float-slow-delayed {
+    animation: float-slow 14s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+
+  .animate-bounce-gentle {
+    animation: bounce-gentle 2s ease-in-out infinite;
+  }
+
+  .hero-scroll-manual {
+    scrollbar-width: none;
+  }
+
+  .hero-scroll-manual::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-scroll,
+  .animate-float-slow,
+  .animate-float-slow-delayed,
+  .animate-bounce-gentle {
+    animation: none;
+  }
+}

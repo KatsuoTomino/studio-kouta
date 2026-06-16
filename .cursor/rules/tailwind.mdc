@@ -1,0 +1,13 @@
+---
+description: Tailwind + DESIGN.md integration
+globs: ["**/*.tsx"]
+---
+
+Map DESIGN.md tokens to Tailwind classes via `tailwind.config.ts` and `src/app/globals.css`.
+
+Rules:
+- Use semantic utility classes (`bg-primary`, `text-body`, `rounded-md`, `p-lg`) instead of raw hex values
+- Do not use arbitrary values (e.g. `bg-[#123456]`) unless DESIGN.md defines them
+- Prefer semantic tokens from the design system
+- Pin Sans is proprietary — use the `font-sans` stack (Inter) defined in the config
+- Reference `DESIGN.md` for component patterns; use Tailwind tokens for implementation
