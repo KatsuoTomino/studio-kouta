@@ -74,8 +74,25 @@ async function uploadImageObject(
   };
 }
 
+const ALLOWED_KEY_PREFIXES = ["artworks/", "profile/", "hero/"] as const;
+
+const IMAGE_KEY_PATTERN =
+  /^(artworks|profile|hero)\/[0-9a-f-]{36}\.(jpg|png|webp|gif)$/;
+
+function assertDeletableImageKey(imageKey: string) {
+  const hasAllowedPrefix = ALLOWED_KEY_PREFIXES.some((prefix) =>
+    imageKey.startsWith(prefix),
+  );
+
+  if (!hasAllowedPrefix || !IMAGE_KEY_PATTERN.test(imageKey)) {
+    throw new Error("Invalid image key.");
+  }
+}
+
 export async function deleteArtworkObject(imageKey: string) {
   if (!imageKey) return;
+
+  assertDeletableImageKey(imageKey);
 
   const { bucketName } = getR2Config();
   const client = getR2Client();

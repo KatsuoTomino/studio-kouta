@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Artwork } from "@/data/artworks";
+import type { Artwork } from "@/types/artwork";
 import { ArtworkCard } from "./ArtworkCard";
 import { Lightbox } from "./Lightbox";
 

@@ -20,7 +20,7 @@ export function Footer() {
           </a>
         </div>
         <p className="text-caption-sm text-ash">
-          © {new Date().getFullYear()} Studio Kouta — このサイトはテスト版です
+          © {new Date().getFullYear()} Studio Kouta
         </p>
       </div>
     </footer>

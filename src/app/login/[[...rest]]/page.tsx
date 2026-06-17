@@ -29,7 +29,15 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             Administrator sign-in only. Use the Google account configured in
             ADMIN_EMAIL.
           </p>
-          <SignIn fallbackRedirectUrl="/admin" forceRedirectUrl="/admin" />
+          <SignIn
+            fallbackRedirectUrl="/admin"
+            forceRedirectUrl="/admin"
+            appearance={{
+              elements: {
+                footerAction: { display: "none" },
+              },
+            }}
+          />
         </main>
         <Footer />
       </>
@@ -42,7 +50,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <BackLink />
         <h1 className="font-display text-heading-xl text-ink">Login</h1>
         <p className="mt-lg text-body-md leading-relaxed text-mute">
-          ログイン機能はテスト版では未実装です。
+          ログインは現在利用できません。
         </p>
 
         <form className="mt-xl flex flex-col gap-md" aria-label="ログインフォーム">

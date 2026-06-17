@@ -8,7 +8,7 @@ import {
   formLabelClass,
 } from "@/components/admin/form-styles";
 import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
-import type { Artwork } from "@/data/artworks";
+import type { Artwork } from "@/types/artwork";
 import type { ArtworkActionResult } from "@/lib/actions/artworks";
 
 type ArtworkFormProps = {

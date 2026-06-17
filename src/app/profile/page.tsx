@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { ProfileEditLink } from "@/components/admin/ProfileEditLink";
 import { BackLink } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
+import { ProfileAvatar } from "@/components/lp/ProfileAvatar";
 import { getProfile } from "@/lib/turso/profile";
 
 export default async function ProfilePage() {
@@ -17,19 +17,18 @@ export default async function ProfilePage() {
         </div>
 
         <div className="mt-xl flex flex-col items-center gap-md text-center">
-          <div className="relative size-32 shrink-0 overflow-hidden rounded-full border border-hairline bg-surface-card">
-            <Image
-              src={profile.imageUrl}
-              alt={profile.name}
-              fill
-              className="object-cover"
-              sizes="128px"
-            />
-          </div>
+          <ProfileAvatar
+            name={profile.name}
+            imageUrl={profile.imageUrl}
+            sizeClassName="size-32"
+            sizes="128px"
+          />
           <p className="font-display text-heading-lg text-ink">{profile.name}</p>
-          <p className="text-body-md leading-relaxed text-body" lang="en">
-            {profile.bio}
-          </p>
+          {profile.bio ? (
+            <p className="text-body-md leading-relaxed text-body" lang="en">
+              {profile.bio}
+            </p>
+          ) : null}
         </div>
       </main>
       <Footer />

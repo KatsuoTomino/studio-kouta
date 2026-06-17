@@ -1,21 +1,10 @@
-import type { Artwork } from "@/data/artworks";
-import { artworks, heroSlides as defaultHeroSlides, profile as defaultProfile } from "@/data/artworks";
 import { getTursoClient } from "./client";
-
-const PROFILE_ID = "default";
+import { EMPTY_PROFILE, PROFILE_ID } from "./defaults";
 
 let initPromise: Promise<void> | null = null;
 
 function toIsoNow() {
   return new Date().toISOString();
-}
-
-async function tableExistsCheck() {
-  const client = getTursoClient();
-  const rs = await client.execute(
-    "SELECT name FROM sqlite_master WHERE type='table' AND name='artworks' LIMIT 1",
-  );
-  return rs.rows.length > 0;
 }
 
 async function ensureArtworksTable() {
@@ -43,49 +32,6 @@ async function ensureArtworksTable() {
   );
 }
 
-async function seedArtworksIfEmpty() {
-  const client = getTursoClient();
-
-  const rs = await client.execute("SELECT COUNT(*) as count FROM artworks");
-  const countRaw = (rs.rows[0] as any)?.count ?? (rs.rows[0] as any)?.[0] ?? 0;
-  const count = typeof countRaw === "string" ? Number(countRaw) : Number(countRaw);
-
-  if (count > 0) return;
-
-  const now = toIsoNow();
-
-  const inserts = artworks
-    .slice()
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .map((artwork: Artwork, index: number) => {
-      return {
-        sql: `
-          INSERT INTO artworks (
-            id, title, date, comment, image_url, image_key,
-            width, height, sort_order, created_at, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `,
-        args: [
-          artwork.id,
-          artwork.title,
-          artwork.date,
-          artwork.comment,
-          artwork.imageUrl,
-          "",
-          artwork.width,
-          artwork.height,
-          index,
-          now,
-          now,
-        ],
-      };
-    });
-
-  if (inserts.length === 0) return;
-
-  await client.batch(inserts, "write");
-}
-
 async function ensureProfileTable() {
   const client = getTursoClient();
 
@@ -110,8 +56,9 @@ async function seedProfileIfEmpty() {
   const client = getTursoClient();
 
   const rs = await client.execute("SELECT COUNT(*) as count FROM profile");
-  const countRaw = (rs.rows[0] as any)?.count ?? (rs.rows[0] as any)?.[0] ?? 0;
-  const count = typeof countRaw === "string" ? Number(countRaw) : Number(countRaw);
+  const countRaw = (rs.rows[0] as Record<string, unknown>)?.count ?? 0;
+  const count =
+    typeof countRaw === "string" ? Number(countRaw) : Number(countRaw);
 
   if (count > 0) return;
 
@@ -124,9 +71,9 @@ async function seedProfileIfEmpty() {
     `,
     [
       PROFILE_ID,
-      defaultProfile.name,
-      defaultProfile.bio,
-      defaultProfile.imageUrl,
+      EMPTY_PROFILE.name,
+      EMPTY_PROFILE.bio,
+      EMPTY_PROFILE.imageUrl,
       "",
       now,
     ],
@@ -159,34 +106,8 @@ async function ensureHeroSlidesTable() {
   );
 }
 
-async function seedHeroSlidesIfEmpty() {
-  const client = getTursoClient();
-
-  const rs = await client.execute("SELECT COUNT(*) as count FROM hero_slides");
-  const countRaw = (rs.rows[0] as any)?.count ?? (rs.rows[0] as any)?.[0] ?? 0;
-  const count = typeof countRaw === "string" ? Number(countRaw) : Number(countRaw);
-
-  if (count > 0) return;
-
-  const now = toIsoNow();
-
-  const inserts = defaultHeroSlides.map((slide, index) => ({
-    sql: `
-      INSERT INTO hero_slides (
-        id, alt, image_url, image_key, sort_order, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
-    `,
-    args: [slide.id, slide.alt, slide.imageUrl, "", index, now, now],
-  }));
-
-  if (inserts.length === 0) return;
-
-  await client.batch(inserts, "write");
-}
-
 export async function initTursoHeroSlides() {
   await ensureHeroSlidesTable();
-  await seedHeroSlidesIfEmpty();
 }
 
 export async function initTursoArtworks() {
@@ -194,11 +115,9 @@ export async function initTursoArtworks() {
 
   initPromise = (async () => {
     await ensureArtworksTable();
-    await seedArtworksIfEmpty();
     await initTursoProfile();
     await initTursoHeroSlides();
   })();
 
   return initPromise;
 }
-

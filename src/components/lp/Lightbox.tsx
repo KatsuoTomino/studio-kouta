@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect } from "react";
-import type { Artwork } from "@/data/artworks";
+import type { Artwork } from "@/types/artwork";
 
 type LightboxProps = {
   artwork: Artwork | null;

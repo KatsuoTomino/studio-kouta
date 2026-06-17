@@ -1,4 +1,4 @@
-import type { Artwork } from "@/data/artworks";
+import type { Artwork } from "@/types/artwork";
 import { initTursoArtworks } from "./init";
 import { getTursoClient } from "./client";
 

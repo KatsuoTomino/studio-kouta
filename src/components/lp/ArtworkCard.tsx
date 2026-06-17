@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { Artwork } from "@/data/artworks";
+import type { Artwork } from "@/types/artwork";
 import { ArtworkEditLink } from "@/components/admin/ArtworkEditLink";
 
 type ArtworkCardProps = {

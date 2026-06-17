@@ -1,7 +1,7 @@
-import Image from "next/image";
-import type { Profile } from "@/data/artworks";
+import type { Profile } from "@/types/profile";
 import type { HeroSlide } from "@/types/hero-slide";
 import { HeroScrollPanels } from "./HeroScrollPanels";
+import { ProfileAvatar } from "./ProfileAvatar";
 
 type HeroProps = {
   slides: HeroSlide[];
@@ -56,18 +56,12 @@ export function Hero({ slides, profile }: HeroProps) {
         </h1>
 
         <div className="mt-lg flex w-full max-w-content flex-col items-center gap-md">
-          <div className="relative size-24 shrink-0 overflow-hidden rounded-full border border-hairline bg-surface-card">
-            <Image
-              src={profile.imageUrl}
-              alt={profile.name}
-              fill
-              className="object-cover"
-              sizes="96px"
-            />
-          </div>
-          <p className="w-full text-sm leading-relaxed text-mute" lang="en">
-            {profile.bio}
-          </p>
+          <ProfileAvatar name={profile.name} imageUrl={profile.imageUrl} />
+          {profile.bio ? (
+            <p className="w-full text-sm leading-relaxed text-mute" lang="en">
+              {profile.bio}
+            </p>
+          ) : null}
         </div>
       </div>
 

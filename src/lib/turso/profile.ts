@@ -1,9 +1,7 @@
-import type { Profile } from "@/data/artworks";
-import { profile as fallbackProfile } from "@/data/artworks";
+import type { Profile } from "@/types/profile";
+import { EMPTY_PROFILE, PROFILE_ID } from "./defaults";
 import { getTursoClient } from "./client";
 import { initTursoProfile } from "./init";
-
-const PROFILE_ID = "default";
 
 export type ProfileRecord = Profile & {
   imageKey: string;
@@ -44,7 +42,7 @@ export async function getProfileRecord(): Promise<ProfileRecord> {
   const row = rs.rows?.[0] as Record<string, unknown> | undefined;
   if (!row) {
     return {
-      ...fallbackProfile,
+      ...EMPTY_PROFILE,
       imageKey: "",
     };
   }
