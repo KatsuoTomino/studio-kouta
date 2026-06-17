@@ -75,9 +75,10 @@ async function getNextSortOrder() {
   const rs = await client.execute(
     "SELECT COALESCE(MAX(sort_order), -1) as max_order FROM hero_slides",
   );
+  const row = rs.rows[0];
   const maxRaw =
-    (rs.rows[0] as Record<string, unknown>)?.max_order ??
-    (rs.rows[0] as unknown[])?.[0] ??
+    (row as Record<string, unknown>)?.max_order ??
+    ((row as unknown) as unknown[])?.[0] ??
     -1;
   const max = parseNumber(maxRaw, -1);
   return max + 1;
