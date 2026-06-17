@@ -20,15 +20,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               Only the administrator can sign in.
             </p>
           ) : null}
+          {reason === "signup-disabled" ? (
+            <p className="mb-lg text-body-sm text-error" role="alert">
+              Sign-up is disabled. Sign in with the administrator Google account.
+            </p>
+          ) : null}
           <p className="mb-lg text-body-sm text-mute">
-            Administrator sign-in only. First-time setup uses Sign up with the
-            admin Google account.
+            Administrator sign-in only. Use the Google account configured in
+            ADMIN_EMAIL.
           </p>
-          <SignIn
-            signUpUrl="/sign-up"
-            fallbackRedirectUrl="/admin"
-            forceRedirectUrl="/admin"
-          />
+          <SignIn fallbackRedirectUrl="/admin" forceRedirectUrl="/admin" />
         </main>
         <Footer />
       </>

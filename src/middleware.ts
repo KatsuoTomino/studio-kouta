@@ -12,6 +12,16 @@ const middleware = clerkEnabled
   ? clerkMiddleware(async (auth, req: NextRequest) => {
       const { pathname } = req.nextUrl;
 
+      if (pathname.startsWith("/api/webhooks/clerk")) {
+        return NextResponse.next();
+      }
+
+      if (pathname.startsWith("/sign-up")) {
+        return NextResponse.redirect(
+          new URL("/login?reason=signup-disabled", req.url),
+        );
+      }
+
       if (pathname.startsWith("/auth/denied")) {
         return NextResponse.next();
       }

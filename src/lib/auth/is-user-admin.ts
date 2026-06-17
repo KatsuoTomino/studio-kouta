@@ -4,6 +4,13 @@ export function getAdminEmailFromEnv() {
   return process.env.ADMIN_EMAIL?.trim().toLowerCase();
 }
 
+export function isAllowedAdminEmail(email: string | null | undefined) {
+  const adminEmail = getAdminEmailFromEnv();
+  if (!adminEmail || !email) return false;
+
+  return email.trim().toLowerCase() === adminEmail;
+}
+
 export async function isUserAdmin(
   userId: string,
   sessionClaims: unknown,
@@ -12,7 +19,5 @@ export async function isUserAdmin(
   if (!adminEmail) return false;
 
   const userEmail = await getUserEmail(userId, sessionClaims);
-  if (!userEmail) return false;
-
-  return userEmail === adminEmail;
+  return isAllowedAdminEmail(userEmail);
 }
