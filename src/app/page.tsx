@@ -1,17 +1,16 @@
 import { Footer } from "@/components/lp/Footer";
 import { Gallery } from "@/components/lp/Gallery";
 import { Hero } from "@/components/lp/Hero";
-import { profile } from "@/data/artworks";
 import { listArtworks } from "@/lib/turso/artworks";
+import { listHeroSlides } from "@/lib/turso/hero-slides";
+import { getProfile } from "@/lib/turso/profile";
 
 export default async function Home() {
-  const artworks = await listArtworks();
-
-  const heroSlides = artworks.slice(0, 6).map((artwork) => ({
-    id: artwork.id,
-    imageUrl: artwork.imageUrl,
-    alt: artwork.title,
-  }));
+  const [artworks, profile, heroSlides] = await Promise.all([
+    listArtworks(),
+    getProfile(),
+    listHeroSlides(),
+  ]);
 
   return (
     <>

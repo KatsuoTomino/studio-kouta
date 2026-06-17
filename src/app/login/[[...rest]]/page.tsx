@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BackLink } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { SignIn } from "@clerk/nextjs";
 
@@ -9,7 +9,15 @@ export default function LoginPage() {
     return (
       <>
         <main className="mx-auto max-w-content px-lg py-section">
-          <SignIn />
+          <BackLink />
+          <p className="mb-lg text-body-sm text-mute">
+            初めての方は「Sign up」から Google で登録してください。
+          </p>
+          <SignIn
+            signUpUrl="/sign-up"
+            fallbackRedirectUrl="/admin"
+            forceRedirectUrl="/admin"
+          />
         </main>
         <Footer />
       </>
@@ -19,6 +27,7 @@ export default function LoginPage() {
   return (
     <>
       <main className="mx-auto flex max-w-content flex-col px-lg py-section">
+        <BackLink />
         <h1 className="font-display text-heading-xl text-ink">Login</h1>
         <p className="mt-lg text-body-md leading-relaxed text-mute">
           ログイン機能はテスト版では未実装です。
@@ -49,10 +58,6 @@ export default function LoginPage() {
             Login
           </button>
         </form>
-
-        <Link href="/" className="mt-xl text-body-sm-strong text-mute hover:text-ink">
-          ← Back to home
-        </Link>
       </main>
       <Footer />
     </>

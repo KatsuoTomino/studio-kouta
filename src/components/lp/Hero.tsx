@@ -1,5 +1,6 @@
 import Image from "next/image";
-import type { HeroSlide, Profile } from "@/data/artworks";
+import type { Profile } from "@/data/artworks";
+import type { HeroSlide } from "@/types/hero-slide";
 import { HeroScrollPanels } from "./HeroScrollPanels";
 
 type HeroProps = {

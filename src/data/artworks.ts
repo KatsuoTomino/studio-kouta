@@ -15,11 +15,8 @@ export type Profile = {
   bio: string;
 };
 
-export type HeroSlide = {
-  id: string;
-  imageUrl: string;
-  alt: string;
-};
+export type { HeroSlide } from "@/types/hero-slide";
+import type { HeroSlide } from "@/types/hero-slide";
 
 /** 白黒基調のシンプルなキャラクターイラスト（DiceBear Notionists） */
 function characterImage(seed: string, size = 800) {

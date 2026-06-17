@@ -4,6 +4,9 @@
 @theme {
   /* spacing の md(12px) と衝突しないよう、コンテンツ幅は別トークンで定義 */
   --max-width-content: 28rem;
+  --container-3xl: 48rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
   --animate-hero-scroll: hero-scroll 48s linear infinite;
 
   @keyframes hero-scroll {
@@ -46,6 +49,22 @@
 }
 
 @layer utilities {
+  .max-w-content {
+    max-width: var(--max-width-content);
+  }
+
+  .max-w-3xl {
+    max-width: var(--container-3xl);
+  }
+
+  .max-w-5xl {
+    max-width: var(--container-5xl);
+  }
+
+  .max-w-6xl {
+    max-width: var(--container-6xl);
+  }
+
   .animate-float-slow {
     animation: float-slow 12s ease-in-out infinite;
   }

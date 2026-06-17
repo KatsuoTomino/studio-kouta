@@ -28,11 +28,17 @@ export default function RootLayout({
 }>) {
   const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
+  const app = (
+    <>
+      <Header />
+      {children}
+    </>
+  );
+
   return (
     <html lang="ja" className={`${inter.variable} ${fredoka.variable} h-full`}>
       <body className="flex min-h-full flex-col">
-        <Header />
-        {clerkEnabled ? <ClerkProvider>{children}</ClerkProvider> : children}
+        {clerkEnabled ? <ClerkProvider>{app}</ClerkProvider> : app}
       </body>
     </html>
   );

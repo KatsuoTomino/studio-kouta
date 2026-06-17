@@ -1,13 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import type { HeroSlide } from "@/data/artworks";
+import type { HeroSlide } from "@/types/hero-slide";
 
 type HeroScrollPanelsProps = {
   slides: HeroSlide[];
 };
 
 export function HeroScrollPanels({ slides }: HeroScrollPanelsProps) {
+  if (slides.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center px-lg text-center text-body-sm text-mute">
+        No hero slides yet.
+      </div>
+    );
+  }
+
   const loopSlides = [...slides, ...slides];
 
   return (

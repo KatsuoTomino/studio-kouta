@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AddArtworkLink } from "@/components/admin/AddArtworkLink";
+import { EditHeroLink } from "@/components/admin/EditHeroLink";
+import { AuthNav } from "@/components/layout/AuthNav";
 
 const navLinks = [
   { href: "/profile", label: "Profile" },
@@ -66,18 +69,15 @@ export function Header() {
         </Link>
 
         <nav
-          className="hidden items-center gap-xl md:flex"
+          className="hidden flex-wrap items-center justify-end gap-md md:flex lg:gap-lg"
           aria-label="メインナビゲーション"
         >
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
-          <Link
-            href="/login"
-            className="rounded-md border border-ink px-lg py-xs text-button-md text-ink transition-colors hover:bg-ink hover:text-on-dark"
-          >
-            Login
-          </Link>
+          <AddArtworkLink />
+          <EditHeroLink />
+          <AuthNav />
         </nav>
 
         <button
@@ -128,13 +128,9 @@ export function Header() {
                 onClick={closeMenu}
               />
             ))}
-            <Link
-              href="/login"
-              onClick={closeMenu}
-              className="mt-auto rounded-md border border-ink px-lg py-md text-center text-button-md text-ink transition-colors hover:bg-ink hover:text-on-dark"
-            >
-              Login
-            </Link>
+            <AddArtworkLink onNavigate={closeMenu} mobile />
+            <EditHeroLink onNavigate={closeMenu} mobile />
+            <AuthNav onNavigate={closeMenu} mobile />
           </nav>
         </div>
       )}
