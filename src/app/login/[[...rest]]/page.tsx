@@ -2,7 +2,12 @@ import { BackLink } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { SignIn } from "@clerk/nextjs";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams: Promise<{ reason?: string }>;
+};
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { reason } = await searchParams;
   const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
   if (clerkEnabled) {
@@ -10,8 +15,14 @@ export default function LoginPage() {
       <>
         <main className="mx-auto max-w-content px-lg py-section">
           <BackLink />
+          {reason === "admin-only" ? (
+            <p className="mb-lg text-body-sm text-error" role="alert">
+              Only the administrator can sign in.
+            </p>
+          ) : null}
           <p className="mb-lg text-body-sm text-mute">
-            初めての方は「Sign up」から Google で登録してください。
+            Administrator sign-in only. First-time setup uses Sign up with the
+            admin Google account.
           </p>
           <SignIn
             signUpUrl="/sign-up"

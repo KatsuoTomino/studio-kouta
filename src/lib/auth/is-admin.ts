@@ -1,20 +1,13 @@
 import { auth } from "@clerk/nextjs/server";
-import { getUserEmail } from "@/lib/auth/get-user-email";
+import { isUserAdmin } from "@/lib/auth/is-user-admin";
 
-export function getAdminEmailFromEnv() {
-  return process.env.ADMIN_EMAIL?.trim().toLowerCase();
-}
+export { getAdminEmailFromEnv } from "@/lib/auth/is-user-admin";
 
 export async function isAdmin() {
   const { sessionClaims, userId } = await auth();
-  const adminEmail = getAdminEmailFromEnv();
+  if (!userId) return false;
 
-  if (!userId || !adminEmail) return false;
-
-  const userEmail = await getUserEmail(userId, sessionClaims);
-  if (!userEmail) return false;
-
-  return userEmail === adminEmail;
+  return isUserAdmin(userId, sessionClaims);
 }
 
 export async function requireAdmin() {

@@ -13,6 +13,10 @@ export default function SignUpPage() {
     <>
       <main className="mx-auto max-w-content px-lg py-section">
         <BackLink href="/login" />
+        <p className="mb-lg text-body-sm text-mute">
+          Administrator registration only. Use the Google account configured in
+          ADMIN_EMAIL.
+        </p>
         <SignUp
           signInUrl="/login"
           fallbackRedirectUrl="/admin"
