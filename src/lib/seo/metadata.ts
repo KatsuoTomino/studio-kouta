@@ -33,9 +33,6 @@ export function createRootMetadata(): Metadata {
     alternates: {
       canonical: "/",
     },
-    verification: {
-      google: "gZOvT4mg_zH3r-e0w9jvKcBdKYwyKTGWZz_U5mCYXCA",
-    },
   };
 }
 
