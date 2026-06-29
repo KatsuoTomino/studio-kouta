@@ -3,10 +3,10 @@ import { NOINDEX_METADATA } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = NOINDEX_METADATA;
 
-export default function AdminLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="flex flex-1 flex-col">{children}</div>;
+  return children;
 }

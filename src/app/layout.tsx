@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Fredoka, Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/components/layout/Header";
+import { BrandJsonLd } from "@/components/seo/BrandJsonLd";
+import { createRootMetadata } from "@/lib/seo/metadata";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,10 +18,7 @@ const fredoka = Fredoka({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "Studio Kouta",
-  description: "絵が、部屋にいる。Studio Kouta のオンライン展示",
-};
+export const metadata: Metadata = createRootMetadata();
 
 export default function RootLayout({
   children,
@@ -38,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${inter.variable} ${fredoka.variable} h-full`}>
       <body className="flex min-h-full flex-col">
+        <BrandJsonLd />
         {clerkEnabled ? <ClerkProvider>{app}</ClerkProvider> : app}
       </body>
     </html>
