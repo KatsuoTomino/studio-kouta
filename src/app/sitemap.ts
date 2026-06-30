@@ -1,28 +1,10 @@
 import type { MetadataRoute } from "next";
-import { listArtworks } from "@/lib/turso/artworks";
 import { getSiteUrl } from "@/lib/seo/site-url";
 
-function parseArtworkDate(date: string): Date | null {
-  const parsed = new Date(date);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function getLatestArtworkDate(artworks: { date: string }[]): Date | undefined {
-  let latest: Date | undefined;
-
-  for (const artwork of artworks) {
-    const parsed = parseArtworkDate(artwork.date);
-    if (!parsed) continue;
-    if (!latest || parsed > latest) latest = parsed;
-  }
-
-  return latest;
-}
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+// Static sitemap — no DB calls so Googlebot always gets a fast 200 response.
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteUrl();
-  const artworks = await listArtworks();
-  const lastModified = getLatestArtworkDate(artworks) ?? new Date();
+  const lastModified = new Date();
 
   return [
     {

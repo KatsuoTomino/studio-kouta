@@ -12,6 +12,11 @@ const middleware = clerkEnabled
   ? clerkMiddleware(async (auth, req: NextRequest) => {
       const { pathname } = req.nextUrl;
 
+      // SEO: bots must reach these without Clerk auth overhead
+      if (pathname === "/sitemap.xml" || pathname === "/robots.txt") {
+        return NextResponse.next();
+      }
+
       if (pathname.startsWith("/api/webhooks/clerk")) {
         return NextResponse.next();
       }
@@ -54,7 +59,7 @@ export default middleware;
 
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|xml|txt)).*)",
     "/(api|trpc)(.*)",
   ],
 };
