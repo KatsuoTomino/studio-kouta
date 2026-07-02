@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    // ローカル開発（FAT32 リムーバブルドライブ）では画像最適化が遅く 7 秒の
+    // タイムアウトで 500 になるため、dev のみ最適化を無効化して R2 画像を直接配信する。
+    // 本番（Vercel）では最適化を有効のままにする。
+    unoptimized: process.env.NODE_ENV === "development",
     remotePatterns: [
       {
         protocol: "https",

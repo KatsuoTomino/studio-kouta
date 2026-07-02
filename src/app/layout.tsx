@@ -37,14 +37,21 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="ja" className={`${inter.variable} ${fredoka.variable} h-full`}>
+    // suppressHydrationWarning: ブラウザ拡張機能（翻訳/広告ブロック等）が
+    // hydration 前に html/body へ属性や style を注入することがあるため。
+    // https://nextjs.org/docs/messages/react-hydration-error
+    <html
+      lang="ja"
+      className={`${inter.variable} ${fredoka.variable} h-full`}
+      suppressHydrationWarning
+    >
       <head>
         <meta
           name="google-site-verification"
           content={googleSiteVerification}
         />
       </head>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <BrandJsonLd />
         {clerkEnabled ? <ClerkProvider>{app}</ClerkProvider> : app}
       </body>
