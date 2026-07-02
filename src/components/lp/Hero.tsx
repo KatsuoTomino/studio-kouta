@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Profile } from "@/types/profile";
 import type { HeroSlide } from "@/types/hero-slide";
 import { HeroScrollPanels } from "./HeroScrollPanels";
@@ -12,44 +13,14 @@ export function Hero({ slides, profile }: HeroProps) {
   return (
     <section className="flex flex-col items-center pb-section pt-xl">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center px-lg text-center">
-        <svg
-          viewBox="0 0 48 48"
-          className="mb-lg h-12 w-12 text-ink"
-          aria-hidden="true"
-        >
-          <rect
-            x="8"
-            y="14"
-            width="32"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <line
-            x1="8"
-            y1="22"
-            x2="40"
-            y2="22"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <line
-            x1="8"
-            y1="30"
-            x2="40"
-            y2="30"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <path
-            d="M24 6 L34 14 L14 14 Z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Image
+          src="/mascot.png"
+          alt="Studio Kouta"
+          width={600}
+          height={800}
+          priority
+          className="mb-lg h-40 w-auto"
+        />
 
         <h1 className="font-display text-display-lg font-bold uppercase tracking-[0.12em] text-ink md:text-display-xl">
           Studio Kouta
