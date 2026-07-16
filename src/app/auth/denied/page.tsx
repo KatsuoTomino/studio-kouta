@@ -5,7 +5,9 @@ import { useClerk } from "@clerk/nextjs";
 import { useEffect, useRef } from "react";
 import { Footer } from "@/components/lp/Footer";
 
-export default function AuthDeniedPage() {
+const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+
+function SignOutOnMount() {
   const { signOut, loaded } = useClerk();
   const hasSignedOut = useRef(false);
 
@@ -16,8 +18,13 @@ export default function AuthDeniedPage() {
     void signOut({ redirectUrl: "/login?reason=admin-only" });
   }, [loaded, signOut]);
 
+  return null;
+}
+
+export default function AuthDeniedPage() {
   return (
     <>
+      {clerkEnabled ? <SignOutOnMount /> : null}
       <main className="mx-auto max-w-content px-lg py-section text-center">
         <h1 className="font-display text-heading-xl text-ink">Access denied</h1>
         <p className="mt-lg text-body-md text-mute">
