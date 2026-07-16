@@ -59,7 +59,10 @@ export default middleware;
 
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|xml|txt)).*)",
+    // sitemap.xml / robots.txt は matcher から明示除外（Clerk を通さない）。
+    // 除外不足だと GSC が「サイトマップを読み込めませんでした」になることがある。
+    // https://nextjs.org/docs/app/api-reference/file-conventions/middleware#matcher
+    "/((?!_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|xml|txt)).*)",
     "/(api|trpc)(.*)",
   ],
 };
