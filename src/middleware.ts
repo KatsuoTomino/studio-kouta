@@ -8,14 +8,17 @@ function isAuthEntryPath(pathname: string) {
   return pathname.startsWith("/login") || pathname.startsWith("/sign-up");
 }
 
+/**
+ * 公開ページ（/ /work /profile など）では Clerk middleware を走らせない。
+ * 本番で pk_test（Development instance）を使うと X-Clerk-Auth-Reason:
+ * dev-browser-missing が付き、Google Search Console がリダイレクトエラーと
+ * 誤判定することがあるため。
+ * @see https://github.com/clerk/javascript/issues/2720
+ * @see https://clerk.com/docs/guides/development/deployment/production
+ */
 const middleware = clerkEnabled
   ? clerkMiddleware(async (auth, req: NextRequest) => {
       const { pathname } = req.nextUrl;
-
-      // SEO: bots must reach these without Clerk auth overhead
-      if (pathname === "/sitemap.xml" || pathname === "/robots.txt") {
-        return NextResponse.next();
-      }
 
       if (pathname.startsWith("/api/webhooks/clerk")) {
         return NextResponse.next();
@@ -58,11 +61,13 @@ const middleware = clerkEnabled
 export default middleware;
 
 export const config = {
+  // 認証が必要な経路だけ。公開 SEO ページは matcher 外＝Clerk 非経由。
+  // https://nextjs.org/docs/app/api-reference/file-conventions/middleware#matcher
   matcher: [
-    // sitemap.xml / robots.txt は matcher から明示除外（Clerk を通さない）。
-    // 除外不足だと GSC が「サイトマップを読み込めませんでした」になることがある。
-    // https://nextjs.org/docs/app/api-reference/file-conventions/middleware#matcher
-    "/((?!_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|xml|txt)).*)",
-    "/(api|trpc)(.*)",
+    "/admin(.*)",
+    "/login(.*)",
+    "/sign-up(.*)",
+    "/auth(.*)",
+    "/api(.*)",
   ],
 };
