@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fredoka, Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/components/layout/Header";
+import { ClerkScopeProvider } from "@/components/providers/ClerkScopeProvider";
 import { BrandJsonLd } from "@/components/seo/BrandJsonLd";
 import { getGoogleSiteVerification } from "@/lib/seo/google-verification";
 import { createRootMetadata } from "@/lib/seo/metadata";
@@ -53,7 +53,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <BrandJsonLd />
-        {clerkEnabled ? <ClerkProvider>{app}</ClerkProvider> : app}
+        {clerkEnabled ? <ClerkScopeProvider>{app}</ClerkScopeProvider> : app}
       </body>
     </html>
   );

@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SignOutButton, useAuth } from "@clerk/nextjs";
 import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
+import { isClerkScopedPath } from "@/lib/auth/clerk-scope";
 
 const authLinkClassName = outlineAuthButtonClass;
 
@@ -45,9 +47,12 @@ function ClerkAuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
 }
 
 export function AuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
+  const pathname = usePathname();
   const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
-  if (!clerkEnabled) {
+  // 公開ページには ClerkProvider がマウントされないため、
+  // ここで useAuth() を呼べるのは Clerk スコープ内のページだけ。
+  if (!clerkEnabled || !isClerkScopedPath(pathname)) {
     return (
       <Link
         href="/login"
