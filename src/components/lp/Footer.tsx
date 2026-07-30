@@ -1,4 +1,4 @@
-import { SITE_NAME } from "@/lib/seo/site-url";
+import { HOME_TAGLINE, SITE_NAME } from "@/lib/seo/site-url";
 
 const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
@@ -8,6 +8,7 @@ export function Footer() {
     <footer className="border-t border-hairline-soft bg-surface-card px-lg py-xl">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-md text-center">
         <p className="font-display text-heading-md text-ink">{SITE_NAME}</p>
+        <p className="max-w-content text-body-sm text-mute">{HOME_TAGLINE}</p>
         {(instagramUrl || contactEmail) && (
           <div className="flex gap-lg">
             {instagramUrl ? (
