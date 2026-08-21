@@ -24,9 +24,6 @@ export const dictionaries = {
       close: "閉じる",
       contact: "お問い合わせ",
     },
-    home: {
-      tagline: "こうたワールドへようこそ！",
-    },
     work: {
       title: "Work",
       intro: "こうた（Kouta）の絵画とイラスト。オンラインでご覧いただけます。",
@@ -64,9 +61,6 @@ export const dictionaries = {
       back: "Back",
       close: "Close",
       contact: "Contact",
-    },
-    home: {
-      tagline: "Welcome to Kouta World!",
     },
     work: {
       title: "Work",

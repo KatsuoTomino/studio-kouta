@@ -24,8 +24,6 @@ export const DEFAULT_TITLE = `${SITE_NAME} | こうたワールドへようこ�
 export const DEFAULT_DESCRIPTION =
   `こうたワールドへようこそ！沖縄の少年アーティスト・${ARTIST_NAME_JA}（${ARTIST_NAME_EN}）の絵画とイラストをオンライン展示する ${SITE_NAME}。`;
 
-export const HOME_TAGLINE = `こうたワールドへようこそ！`;
-
 export const WORK_PAGE_TITLE = `${ARTIST_NAME_JA}の絵・アート作品ギャラリー`;
 
 export const WORK_PAGE_DESCRIPTION =

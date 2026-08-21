@@ -59,9 +59,6 @@ export async function Hero({ slides, profile }: HeroProps) {
         <h1 className="font-display text-display-lg font-bold uppercase tracking-[0.12em] text-ink md:text-display-xl">
           Studio Kouta
         </h1>
-        <p className="mt-md max-w-content text-body-md leading-relaxed text-mute">
-          {dict.home.tagline}
-        </p>
 
         <div className="mt-lg flex w-full max-w-content flex-col items-center gap-md">
           <ProfileAvatar name={profile.name} imageUrl={profile.imageUrl} />

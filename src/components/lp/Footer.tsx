@@ -11,7 +11,6 @@ export async function Footer() {
     <footer className="border-t border-hairline-soft bg-surface-card px-lg py-xl">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-md text-center">
         <p className="font-display text-heading-md text-ink">{SITE_NAME}</p>
-        <p className="max-w-content text-body-sm text-mute">{dict.home.tagline}</p>
         {(instagramUrl || contactEmail) && (
           <div className="flex gap-lg">
             {instagramUrl ? (
