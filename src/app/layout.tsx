@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Fredoka, Inter } from "next/font/google";
+import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 import { Header } from "@/components/layout/Header";
 import { ClerkScopeProvider } from "@/components/providers/ClerkScopeProvider";
 import { BrandJsonLd } from "@/components/seo/BrandJsonLd";
+import { getDictionary, getLocale } from "@/lib/i18n/get-locale";
 import { getGoogleSiteVerification } from "@/lib/seo/google-verification";
 import { createRootMetadata } from "@/lib/seo/metadata";
 import "./globals.css";
@@ -21,19 +23,21 @@ const fredoka = Fredoka({
 
 export const metadata: Metadata = createRootMetadata();
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const googleSiteVerification = getGoogleSiteVerification();
   const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  const locale = await getLocale();
+  const dictionary = await getDictionary();
 
   const app = (
-    <>
+    <LocaleProvider locale={locale} dictionary={dictionary}>
       <Header />
       {children}
-    </>
+    </LocaleProvider>
   );
 
   return (
@@ -41,7 +45,7 @@ export default function RootLayout({
     // hydration 前に html/body へ属性や style を注入することがあるため。
     // https://nextjs.org/docs/messages/react-hydration-error
     <html
-      lang="ja"
+      lang={locale}
       className={`${inter.variable} ${fredoka.variable} h-full`}
       suppressHydrationWarning
     >

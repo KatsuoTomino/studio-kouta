@@ -5,12 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AddArtworkLink } from "@/components/admin/AddArtworkLink";
 import { EditHeroLink } from "@/components/admin/EditHeroLink";
+import { LanguageToggle } from "@/components/i18n/LanguageToggle";
+import { useI18n } from "@/components/i18n/LocaleProvider";
 import { AuthNav } from "@/components/layout/AuthNav";
-
-const navLinks = [
-  { href: "/profile", label: "Profile" },
-  { href: "/work", label: "Work" },
-] as const;
 
 function NavLink({
   href,
@@ -38,7 +35,12 @@ function NavLink({
 }
 
 export function Header() {
+  const { dict } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navLinks = [
+    { href: "/profile", label: dict.nav.profile },
+    { href: "/work", label: dict.nav.work },
+  ] as const;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -70,42 +72,46 @@ export function Header() {
 
         <nav
           className="hidden flex-wrap items-center justify-end gap-md md:flex lg:gap-lg"
-          aria-label="メインナビゲーション"
+          aria-label={dict.nav.main}
         >
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
+          <LanguageToggle />
           <AddArtworkLink />
           <EditHeroLink />
           <AuthNav />
         </nav>
 
-        <button
-          type="button"
-          className="flex size-10 items-center justify-center rounded-md text-ink md:hidden"
-          aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span className="relative block h-3.5 w-5">
-            <span
-              className={`absolute left-0 block h-0.5 w-full bg-ink transition-transform ${
-                menuOpen ? "top-[6px] rotate-45" : "top-0"
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[6px] block h-0.5 w-full bg-ink transition-opacity ${
-                menuOpen ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute left-0 block h-0.5 w-full bg-ink transition-transform ${
-                menuOpen ? "top-[6px] -rotate-45" : "top-[12px]"
-              }`}
-            />
-          </span>
-        </button>
+        <div className="flex items-center gap-sm md:hidden">
+          <LanguageToggle />
+          <button
+            type="button"
+            className="flex size-10 items-center justify-center rounded-md text-ink"
+            aria-label={menuOpen ? dict.nav.closeMenu : dict.nav.openMenu}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className="relative block h-3.5 w-5">
+              <span
+                className={`absolute left-0 block h-0.5 w-full bg-ink transition-transform ${
+                  menuOpen ? "top-[6px] rotate-45" : "top-0"
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-[6px] block h-0.5 w-full bg-ink transition-opacity ${
+                  menuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute left-0 block h-0.5 w-full bg-ink transition-transform ${
+                  menuOpen ? "top-[6px] -rotate-45" : "top-[12px]"
+                }`}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
@@ -113,12 +119,12 @@ export function Header() {
           <button
             type="button"
             className="absolute inset-0 bg-ink/40"
-            aria-label="メニューを閉じる"
+            aria-label={dict.nav.closeMenu}
             onClick={closeMenu}
           />
           <nav
             className="absolute right-0 top-0 flex h-full w-[min(100%,280px)] flex-col gap-xl bg-surface-card px-xl py-xxl shadow-2xl"
-            aria-label="モバイルナビゲーション"
+            aria-label={dict.nav.mobile}
           >
             {navLinks.map((link) => (
               <NavLink

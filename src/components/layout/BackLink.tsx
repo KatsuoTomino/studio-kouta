@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "@/components/i18n/LocaleProvider";
 import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
 
 type BackButtonProps = {
@@ -7,9 +10,11 @@ type BackButtonProps = {
 };
 
 export function BackButton({ href = "/", className = "" }: BackButtonProps) {
+  const { dict } = useI18n();
+
   return (
     <Link href={href} className={`${outlineAuthButtonClass} ${className}`}>
-      Back
+      {dict.common.back}
     </Link>
   );
 }

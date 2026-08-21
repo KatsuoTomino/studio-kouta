@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SignOutButton, useAuth } from "@clerk/nextjs";
+import { useI18n } from "@/components/i18n/LocaleProvider";
 import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
 import { isClerkScopedPath } from "@/lib/auth/clerk-scope";
 
@@ -16,6 +17,7 @@ type AuthNavProps = {
 
 function ClerkAuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
   const { isSignedIn, isLoaded } = useAuth();
+  const { dict } = useI18n();
 
   if (!isLoaded) {
     return null;
@@ -28,7 +30,7 @@ function ClerkAuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
         onClick={onNavigate}
         className={`${authLinkClassName} ${mobile ? "mt-auto block py-md text-center" : ""} ${className}`}
       >
-        Login
+        {dict.auth.login}
       </Link>
     );
   }
@@ -40,7 +42,7 @@ function ClerkAuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
         onClick={onNavigate}
         className={`${authLinkClassName} ${mobile ? "mt-auto w-full py-md" : ""} ${className}`}
       >
-        Logout
+        {dict.auth.logout}
       </button>
     </SignOutButton>
   );
@@ -48,6 +50,7 @@ function ClerkAuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
 
 export function AuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
   const pathname = usePathname();
+  const { dict } = useI18n();
   const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
   // 公開ページには ClerkProvider がマウントされないため、
@@ -59,7 +62,7 @@ export function AuthNav({ onNavigate, className = "", mobile }: AuthNavProps) {
         onClick={onNavigate}
         className={`${authLinkClassName} ${mobile ? "mt-auto py-md text-center" : ""} ${className}`}
       >
-        Login
+        {dict.auth.login}
       </Link>
     );
   }

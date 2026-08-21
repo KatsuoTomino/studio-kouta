@@ -5,13 +5,14 @@ import type { HeroSlide } from "@/types/hero-slide";
 
 type HeroScrollPanelsProps = {
   slides: HeroSlide[];
+  emptyLabel: string;
 };
 
-export function HeroScrollPanels({ slides }: HeroScrollPanelsProps) {
+export function HeroScrollPanels({ slides, emptyLabel }: HeroScrollPanelsProps) {
   if (slides.length === 0) {
     return (
       <div className="flex h-full items-center justify-center px-lg text-center text-body-sm text-mute">
-        No hero slides yet.
+        {emptyLabel}
       </div>
     );
   }

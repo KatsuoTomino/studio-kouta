@@ -1,6 +1,6 @@
 import type { Profile } from "@/types/profile";
 import type { HeroSlide } from "@/types/hero-slide";
-import { HOME_TAGLINE } from "@/lib/seo/site-url";
+import { getDictionary } from "@/lib/i18n/get-locale";
 import { HeroScrollPanels } from "./HeroScrollPanels";
 import { ProfileAvatar } from "./ProfileAvatar";
 
@@ -9,7 +9,9 @@ type HeroProps = {
   profile: Profile;
 };
 
-export function Hero({ slides, profile }: HeroProps) {
+export async function Hero({ slides, profile }: HeroProps) {
+  const dict = await getDictionary();
+
   return (
     <section className="flex flex-col items-center pb-section pt-xl">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center px-lg text-center">
@@ -56,13 +58,13 @@ export function Hero({ slides, profile }: HeroProps) {
           Studio Kouta
         </h1>
         <p className="mt-md max-w-content text-body-md leading-relaxed text-mute">
-          {HOME_TAGLINE}
+          {dict.home.tagline}
         </p>
 
         <div className="mt-lg flex w-full max-w-content flex-col items-center gap-md">
           <ProfileAvatar name={profile.name} imageUrl={profile.imageUrl} />
           {profile.bio ? (
-            <p className="w-full text-sm leading-relaxed text-mute" lang="en">
+            <p className="w-full text-sm leading-relaxed text-mute">
               {profile.bio}
             </p>
           ) : null}
@@ -70,7 +72,7 @@ export function Hero({ slides, profile }: HeroProps) {
       </div>
 
       <div className="relative mt-xl h-[min(70vh,640px)] w-full overflow-hidden">
-        <HeroScrollPanels slides={slides} />
+        <HeroScrollPanels slides={slides} emptyLabel={dict.hero.noSlides} />
 
         <div
           className="pointer-events-none absolute inset-0 flex items-center justify-center bg-ink/10"

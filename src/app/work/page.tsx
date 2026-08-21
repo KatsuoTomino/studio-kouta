@@ -3,9 +3,9 @@ import { BackButton } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { Gallery } from "@/components/lp/Gallery";
 import { listArtworks } from "@/lib/turso/artworks";
+import { getDictionary } from "@/lib/i18n/get-locale";
 import {
   WORK_PAGE_DESCRIPTION,
-  WORK_PAGE_INTRO,
   WORK_PAGE_TITLE,
 } from "@/lib/seo/site-url";
 
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function WorkPage() {
-  const artworks = await listArtworks();
+  const [artworks, dict] = await Promise.all([listArtworks(), getDictionary()]);
 
   return (
     <>
@@ -34,10 +34,10 @@ export default async function WorkPage() {
         <div className="relative mb-lg min-h-10">
           <div className="mx-auto max-w-2xl text-center">
             <h1 className="font-display text-heading-xl text-ink">
-              こうたの絵・作品ギャラリー
+              {dict.work.title}
             </h1>
             <p className="mt-md text-body-md leading-relaxed text-mute">
-              {WORK_PAGE_INTRO}
+              {dict.work.intro}
             </p>
           </div>
           <div className="absolute right-0 top-0">

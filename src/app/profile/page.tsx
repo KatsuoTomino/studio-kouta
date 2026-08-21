@@ -4,11 +4,11 @@ import { BackLink } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { ProfileAvatar } from "@/components/lp/ProfileAvatar";
 import { getProfile } from "@/lib/turso/profile";
+import { getDictionary } from "@/lib/i18n/get-locale";
 import {
   ARTIST_NAME_EN,
   ARTIST_NAME_JA,
   PROFILE_PAGE_FALLBACK_DESCRIPTION,
-  PROFILE_PAGE_INTRO,
   PROFILE_PAGE_TITLE,
   SITE_NAME,
 } from "@/lib/seo/site-url";
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProfilePage() {
-  const profile = await getProfile();
+  const [profile, dict] = await Promise.all([getProfile(), getDictionary()]);
 
   return (
     <>
@@ -47,10 +47,10 @@ export default async function ProfilePage() {
         <div className="flex flex-wrap items-center justify-between gap-md">
           <div>
             <h1 className="font-display text-heading-xl text-ink">
-              {ARTIST_NAME_JA}のプロフィール
+              {dict.profile.title}
             </h1>
             <p className="mt-md text-body-md leading-relaxed text-mute">
-              {PROFILE_PAGE_INTRO}
+              {dict.profile.intro}
             </p>
           </div>
           <ProfileEditLink />
@@ -67,7 +67,7 @@ export default async function ProfilePage() {
             {profile.name || `${ARTIST_NAME_JA} / ${SITE_NAME}`}
           </p>
           {profile.bio ? (
-            <p className="text-body-md leading-relaxed text-body" lang="en">
+            <p className="text-body-md leading-relaxed text-body">
               {profile.bio}
             </p>
           ) : null}
