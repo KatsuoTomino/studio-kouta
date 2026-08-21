@@ -3,14 +3,13 @@ import {
   ARTIST_NAME_JA,
   DEFAULT_DESCRIPTION,
   getSiteUrl,
+  INSTAGRAM_URL,
   SITE_NAME,
 } from "@/lib/seo/site-url";
 
 export function getBrandJsonLd() {
   const siteUrl = getSiteUrl();
-  const sameAs = [
-    process.env.NEXT_PUBLIC_INSTAGRAM_URL,
-  ].filter((url): url is string => Boolean(url));
+  const sameAs = [INSTAGRAM_URL].filter(Boolean);
 
   return {
     "@context": "https://schema.org",

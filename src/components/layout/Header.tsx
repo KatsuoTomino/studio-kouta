@@ -9,6 +9,7 @@ import { ProfileEditLink } from "@/components/admin/ProfileEditLink";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
 import { useI18n } from "@/components/i18n/LocaleProvider";
 import { AuthNav } from "@/components/layout/AuthNav";
+import { InstagramLink } from "@/components/layout/InstagramLink";
 
 function NavLink({
   href,
@@ -78,6 +79,7 @@ export function Header() {
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
+          <InstagramLink label={dict.nav.instagram} />
           <LanguageToggle />
           <AddArtworkLink />
           <EditHeroLink />
@@ -86,6 +88,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-sm md:hidden">
+          <InstagramLink label={dict.nav.instagram} />
           <LanguageToggle />
           <button
             type="button"
@@ -136,6 +139,10 @@ export function Header() {
                 onClick={closeMenu}
               />
             ))}
+            <InstagramLink
+              label={dict.nav.instagram}
+              className="self-start"
+            />
             <AddArtworkLink onNavigate={closeMenu} mobile />
             <EditHeroLink onNavigate={closeMenu} mobile />
             <ProfileEditLink onNavigate={closeMenu} mobile />

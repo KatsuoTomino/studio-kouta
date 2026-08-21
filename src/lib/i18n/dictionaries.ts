@@ -14,6 +14,7 @@ export const dictionaries = {
       mobile: "モバイルナビゲーション",
       openMenu: "メニューを開く",
       closeMenu: "メニューを閉じる",
+      instagram: "Instagram",
     },
     auth: {
       login: "ログイン",
@@ -52,6 +53,7 @@ export const dictionaries = {
       mobile: "Mobile navigation",
       openMenu: "Open menu",
       closeMenu: "Close menu",
+      instagram: "Instagram",
     },
     auth: {
       login: "Login",

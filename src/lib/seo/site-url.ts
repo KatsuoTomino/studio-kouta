@@ -11,6 +11,11 @@ export function getSiteUrl(): string {
 
 export const SITE_NAME = "Studio Kouta";
 
+/** Instagram 公式アカウント。環境変数があればそれを優先。 */
+export const INSTAGRAM_URL =
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ||
+  "https://www.instagram.com/studiokouta/";
+
 /** アーティスト表記（検索用の自然な別名） */
 export const ARTIST_NAME_JA = "こうた";
 export const ARTIST_NAME_EN = "Kouta";
