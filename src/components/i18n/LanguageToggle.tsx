@@ -43,7 +43,7 @@ export function LanguageToggle({ className = "" }: LanguageToggleProps) {
             className={`px-md py-xs text-button-md transition-colors disabled:opacity-60 ${
               active
                 ? "bg-ink text-on-dark"
-                : "bg-canvas text-ink hover:bg-hairline-soft"
+                : "bg-hairline-soft text-ash hover:bg-hairline hover:text-mute"
             }`}
           >
             {label}

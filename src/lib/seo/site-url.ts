@@ -17,14 +17,14 @@ export const ARTIST_NAME_EN = "Kouta";
 
 /**
  * トップの title / description。
- * キャッチコピーは「絵で伝える、こうたの世界。」。沖縄・年齢は description 側で自然に補足。
+ * キャッチコピーは「こうたワールドへようこそ！」。沖縄・年齢は description 側で自然に補足。
  */
-export const DEFAULT_TITLE = `${SITE_NAME} | 絵で伝える、こうたの世界。`;
+export const DEFAULT_TITLE = `${SITE_NAME} | こうたワールドへようこそ！`;
 
 export const DEFAULT_DESCRIPTION =
-  `絵で伝える、こうたの世界。沖縄の少年アーティスト・${ARTIST_NAME_JA}（${ARTIST_NAME_EN}）の絵画とイラストをオンライン展示する ${SITE_NAME}。`;
+  `こうたワールドへようこそ！沖縄の少年アーティスト・${ARTIST_NAME_JA}（${ARTIST_NAME_EN}）の絵画とイラストをオンライン展示する ${SITE_NAME}。`;
 
-export const HOME_TAGLINE = `絵で伝える、こうたの世界。`;
+export const HOME_TAGLINE = `こうたワールドへようこそ！`;
 
 export const WORK_PAGE_TITLE = `${ARTIST_NAME_JA}の絵・アート作品ギャラリー`;
 

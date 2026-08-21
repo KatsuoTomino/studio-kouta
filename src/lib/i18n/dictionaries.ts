@@ -25,7 +25,7 @@ export const dictionaries = {
       contact: "お問い合わせ",
     },
     home: {
-      tagline: "絵で伝える、こうたの世界。",
+      tagline: "こうたワールドへようこそ！",
     },
     work: {
       title: "こうたの絵・作品ギャラリー",
@@ -66,7 +66,7 @@ export const dictionaries = {
       contact: "Contact",
     },
     home: {
-      tagline: "Kouta's world, told through painting.",
+      tagline: "Welcome to Kouta World!",
     },
     work: {
       title: "Kouta's paintings and gallery",
