@@ -1,25 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import { useClerk } from "@clerk/nextjs";
-import { useEffect, useRef } from "react";
 import { Footer } from "@/components/lp/Footer";
+import { SignOutOnMount } from "./sign-out-on-mount";
 
 const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
-
-function SignOutOnMount() {
-  const { signOut, loaded } = useClerk();
-  const hasSignedOut = useRef(false);
-
-  useEffect(() => {
-    if (!loaded || hasSignedOut.current) return;
-
-    hasSignedOut.current = true;
-    void signOut({ redirectUrl: "/login?reason=admin-only" });
-  }, [loaded, signOut]);
-
-  return null;
-}
 
 export default function AuthDeniedPage() {
   return (

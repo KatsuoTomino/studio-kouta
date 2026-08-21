@@ -1,6 +1,8 @@
+"use client";
+
 import type { Profile } from "@/types/profile";
 import type { HeroSlide } from "@/types/hero-slide";
-import { getDictionary } from "@/lib/i18n/get-locale";
+import { useI18n } from "@/components/i18n/LocaleProvider";
 import { HeroScrollPanels } from "./HeroScrollPanels";
 import { ProfileAvatar } from "./ProfileAvatar";
 
@@ -9,8 +11,8 @@ type HeroProps = {
   profile: Profile;
 };
 
-export async function Hero({ slides, profile }: HeroProps) {
-  const dict = await getDictionary();
+export function Hero({ slides, profile }: HeroProps) {
+  const { dict } = useI18n();
 
   return (
     <section className="flex flex-col items-center pb-section pt-xl">
