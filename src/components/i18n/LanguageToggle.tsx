@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useI18n } from "@/components/i18n/LocaleProvider";
 import { LOCALES, type Locale } from "@/lib/i18n/config";
@@ -12,14 +11,15 @@ type LanguageToggleProps = {
 
 export function LanguageToggle({ className = "" }: LanguageToggleProps) {
   const { locale, dict } = useI18n();
-  const router = useRouter();
   const [pending, startTransition] = useTransition();
 
   function select(next: Locale) {
     if (next === locale || pending) return;
-    startTransition(async () => {
-      await setLocale(next);
-      router.refresh();
+    // startTransition に async を渡すと await 後の更新がトランジション外になり、
+    // レイアウト再描画中に未マウントの setState になる。revalidatePath で十分。
+    // https://react.dev/reference/react/useTransition
+    startTransition(() => {
+      void setLocale(next);
     });
   }
 

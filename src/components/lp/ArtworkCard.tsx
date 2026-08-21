@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import type { Artwork } from "@/types/artwork";
+import type { DisplayArtwork } from "@/types/artwork";
 import { ArtworkEditLink } from "@/components/admin/ArtworkEditLink";
 
 type ArtworkCardProps = {
-  artwork: Artwork;
-  onSelect: (artwork: Artwork) => void;
+  artwork: DisplayArtwork;
+  onSelect: (artwork: DisplayArtwork) => void;
 };
 
 export function ArtworkCard({ artwork, onSelect }: ArtworkCardProps) {

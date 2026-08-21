@@ -1,13 +1,11 @@
-"use client";
-
-import { useI18n } from "@/components/i18n/LocaleProvider";
+import { getDictionary } from "@/lib/i18n/get-locale";
 import { SITE_NAME } from "@/lib/seo/site-url";
 
 const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
-export function Footer() {
-  const { dict } = useI18n();
+export async function Footer() {
+  const dict = await getDictionary();
 
   return (
     <footer className="border-t border-hairline-soft bg-surface-card px-lg py-xl">

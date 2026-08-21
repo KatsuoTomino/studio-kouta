@@ -33,11 +33,17 @@ export default async function RootLayout({
   const locale = await getLocale();
   const dictionary = await getDictionary();
 
+  // Header だけ Client の LocaleProvider で包む。{children} まで包むと
+  // layout.js のハイドレーション対象がページ全体になり、webpack 開発時に
+  // ChunkLoadError や「未マウントの state update」が起きやすい。
+  // https://nextjs.org/docs/app/getting-started/server-and-client-components
   const app = (
-    <LocaleProvider locale={locale} dictionary={dictionary}>
-      <Header />
+    <>
+      <LocaleProvider locale={locale} dictionary={dictionary}>
+        <Header />
+      </LocaleProvider>
       {children}
-    </LocaleProvider>
+    </>
   );
 
   return (

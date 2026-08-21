@@ -3,7 +3,8 @@ import { BackButton } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { Gallery } from "@/components/lp/Gallery";
 import { listArtworks } from "@/lib/turso/artworks";
-import { getDictionary } from "@/lib/i18n/get-locale";
+import { getDictionary, getLocale } from "@/lib/i18n/get-locale";
+import { toDisplayArtwork } from "@/lib/i18n/localized";
 import {
   WORK_PAGE_DESCRIPTION,
   WORK_PAGE_TITLE,
@@ -26,7 +27,11 @@ export const metadata: Metadata = {
 };
 
 export default async function WorkPage() {
-  const [artworks, dict] = await Promise.all([listArtworks(), getDictionary()]);
+  const [artworks, dict, locale] = await Promise.all([
+    listArtworks(),
+    getDictionary(),
+    getLocale(),
+  ]);
 
   return (
     <>
@@ -45,7 +50,11 @@ export default async function WorkPage() {
           </div>
         </div>
       </main>
-      <Gallery artworks={artworks} />
+      <Gallery
+        artworks={artworks.map((artwork) => toDisplayArtwork(artwork, locale))}
+        closeLabel={dict.common.close}
+        exhibitSuffix={dict.lightbox.exhibitSuffix}
+      />
       <Footer />
     </>
   );

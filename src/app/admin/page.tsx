@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BackLink } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
+import { artworkAdminLabel } from "@/lib/i18n/localized";
 import { listArtworks } from "@/lib/turso/artworks";
 
 export default async function AdminPage() {
@@ -39,14 +40,16 @@ export default async function AdminPage() {
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-card">
                     <Image
                       src={artwork.imageUrl}
-                      alt={artwork.title}
+                      alt={artworkAdminLabel(artwork)}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="flex flex-1 flex-col gap-xs p-lg">
-                    <h2 className="text-body-strong text-ink">{artwork.title}</h2>
+                    <h2 className="text-body-strong text-ink">
+                      {artworkAdminLabel(artwork)}
+                    </h2>
                     <time
                       dateTime={artwork.date}
                       className="text-caption-md text-mute"

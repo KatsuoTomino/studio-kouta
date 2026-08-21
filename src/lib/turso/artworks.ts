@@ -19,21 +19,33 @@ function parseNumber(value: unknown, fallback: number) {
   return fallback;
 }
 
-function rowToArtwork(row: any): Artwork {
-  const width = parseNumber(row.width ?? row[6], 800);
-  const height = parseNumber(row.height ?? row[7], 800);
-
+function rowToArtwork(row: Record<string, unknown>): Artwork {
   return {
-    id: String(row.id ?? row[0]),
-    title: String(row.title ?? row[1]),
-    date: String(row.date ?? row[2]),
-    comment: String(row.comment ?? row[3]),
-    imageUrl: String(row.image_url ?? row[4]),
+    id: String(row.id ?? ""),
+    titleJa: String(row.title ?? ""),
+    titleEn: String(row.title_en ?? ""),
+    date: String(row.date ?? ""),
+    commentJa: String(row.comment ?? ""),
+    commentEn: String(row.comment_en ?? ""),
+    imageUrl: String(row.image_url ?? ""),
     imageKey: typeof row.image_key === "string" ? row.image_key : "",
-    width,
-    height,
+    width: parseNumber(row.width, 800),
+    height: parseNumber(row.height, 800),
   };
 }
+
+const artworkSelectColumns = `
+  id,
+  title,
+  title_en,
+  date,
+  comment,
+  comment_en,
+  image_url,
+  image_key,
+  width,
+  height
+`;
 
 export async function listArtworks(): Promise<Artwork[]> {
   await initTursoArtworks();
@@ -41,36 +53,16 @@ export async function listArtworks(): Promise<Artwork[]> {
   const client = getTursoClient();
   const rs = await client.execute(`
     SELECT
-      id,
-      title,
-      date,
-      comment,
-      image_url,
-      image_key,
-      width,
-      height,
+      ${artworkSelectColumns},
       sort_order,
       created_at
     FROM artworks
     ORDER BY sort_order ASC, created_at DESC
   `);
 
-  const rows = rs.rows ?? [];
-  return rows.map((row: any) => {
-    // SELECT した列順に合わせるためのフォールバック
-    const mapped = {
-      id: row.id ?? row[0],
-      title: row.title ?? row[1],
-      date: row.date ?? row[2],
-      comment: row.comment ?? row[3],
-      image_url: row.image_url ?? row[4],
-      image_key: row.image_key ?? row[5],
-      width: row.width ?? row[6],
-      height: row.height ?? row[7],
-    };
-
-    return rowToArtwork(mapped);
-  });
+  return (rs.rows ?? []).map((row) =>
+    rowToArtwork(row as Record<string, unknown>),
+  );
 }
 
 export async function getArtwork(id: string): Promise<Artwork | null> {
@@ -79,7 +71,7 @@ export async function getArtwork(id: string): Promise<Artwork | null> {
   const client = getTursoClient();
   const rs = await client.execute(
     `
-    SELECT id, title, date, comment, image_url, image_key, width, height
+    SELECT ${artworkSelectColumns}
     FROM artworks
     WHERE id = ?
     LIMIT 1
@@ -87,7 +79,7 @@ export async function getArtwork(id: string): Promise<Artwork | null> {
     [id],
   );
 
-  const row = rs.rows?.[0] as any | undefined;
+  const row = rs.rows?.[0] as Record<string, unknown> | undefined;
   if (!row) return null;
 
   return rowToArtwork(row);
@@ -104,15 +96,17 @@ export async function createArtwork(input: ArtworkCreateInput): Promise<Artwork>
   await client.execute(
     `
     INSERT INTO artworks (
-      id, title, date, comment, image_url, image_key,
+      id, title, title_en, date, comment, comment_en, image_url, image_key,
       width, height, sort_order, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `,
     [
       id,
-      input.title,
+      input.titleJa,
+      input.titleEn,
       input.date,
-      input.comment,
+      input.commentJa,
+      input.commentEn,
       input.imageUrl,
       input.imageKey ?? "",
       input.width,
@@ -125,9 +119,11 @@ export async function createArtwork(input: ArtworkCreateInput): Promise<Artwork>
 
   return {
     id,
-    title: input.title,
+    titleJa: input.titleJa,
+    titleEn: input.titleEn,
     date: input.date,
-    comment: input.comment,
+    commentJa: input.commentJa,
+    commentEn: input.commentEn,
     imageUrl: input.imageUrl,
     imageKey: input.imageKey ?? "",
     width: input.width,
@@ -148,9 +144,11 @@ export async function updateArtwork(
   if (!current) return null;
 
   const next = {
-    title: input.title ?? current.title,
+    titleJa: input.titleJa ?? current.titleJa,
+    titleEn: input.titleEn ?? current.titleEn,
     date: input.date ?? current.date,
-    comment: input.comment ?? current.comment,
+    commentJa: input.commentJa ?? current.commentJa,
+    commentEn: input.commentEn ?? current.commentEn,
     imageUrl: input.imageUrl ?? current.imageUrl,
     imageKey: input.imageKey ?? current.imageKey ?? "",
     width: input.width ?? current.width,
@@ -162,8 +160,10 @@ export async function updateArtwork(
     UPDATE artworks
     SET
       title = ?,
+      title_en = ?,
       date = ?,
       comment = ?,
+      comment_en = ?,
       image_url = ?,
       image_key = ?,
       width = ?,
@@ -172,9 +172,11 @@ export async function updateArtwork(
     WHERE id = ?
   `,
     [
-      next.title,
+      next.titleJa,
+      next.titleEn,
       next.date,
-      next.comment,
+      next.commentJa,
+      next.commentEn,
       next.imageUrl,
       next.imageKey,
       next.width,
@@ -197,4 +199,3 @@ export async function deleteArtwork(id: string): Promise<boolean> {
   const rs = await client.execute(`DELETE FROM artworks WHERE id = ?`, [id]);
   return (rs.rowsAffected ?? 0) > 0;
 }
-

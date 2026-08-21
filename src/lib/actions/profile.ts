@@ -15,14 +15,18 @@ export type ProfileActionResult =
 
 function parseFormFields(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
-  const bio = String(formData.get("bio") ?? "").trim();
+  const bioJa = String(formData.get("bioJa") ?? "").trim();
+  const bioEn = String(formData.get("bioEn") ?? "").trim();
 
-  return { name, bio };
+  return { name, bioJa, bioEn };
 }
 
 function validateFields(fields: ReturnType<typeof parseFormFields>) {
-  if (!fields.name || !fields.bio) {
-    return "Name and bio are required.";
+  if (!fields.name || !fields.bioJa) {
+    return "名前と日本語のプロフィール文を入力してください。";
+  }
+  if (!fields.bioEn) {
+    return "英語のプロフィール文も入力してください。";
   }
   return null;
 }

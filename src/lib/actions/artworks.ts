@@ -19,18 +19,23 @@ export type ArtworkActionResult =
   | { ok: false; error: string };
 
 function parseFormFields(formData: FormData) {
-  const title = String(formData.get("title") ?? "").trim();
+  const titleJa = String(formData.get("titleJa") ?? "").trim();
+  const titleEn = String(formData.get("titleEn") ?? "").trim();
   const date = String(formData.get("date") ?? "").trim();
-  const comment = String(formData.get("comment") ?? "").trim();
+  const commentJa = String(formData.get("commentJa") ?? "").trim();
+  const commentEn = String(formData.get("commentEn") ?? "").trim();
   const width = Number(formData.get("width")) || 800;
   const height = Number(formData.get("height")) || 800;
 
-  return { title, date, comment, width, height };
+  return { titleJa, titleEn, date, commentJa, commentEn, width, height };
 }
 
 function validateFields(fields: ReturnType<typeof parseFormFields>) {
-  if (!fields.title || !fields.date || !fields.comment) {
-    return "タイトル・日付・コメントを入力してください。";
+  if (!fields.titleJa || !fields.commentJa || !fields.date) {
+    return "日本語のタイトル・コメントと日付を入力してください。";
+  }
+  if (!fields.titleEn || !fields.commentEn) {
+    return "英語のタイトルとコメントも入力してください。";
   }
   return null;
 }

@@ -7,6 +7,7 @@ import {
   updateArtworkAction,
 } from "@/lib/actions/artworks";
 import { getArtwork } from "@/lib/turso/artworks";
+import { artworkAdminLabel } from "@/lib/i18n/localized";
 
 type EditArtworkPageProps = {
   params: Promise<{ id: string }>;
@@ -28,7 +29,7 @@ export default async function EditArtworkPage({ params }: EditArtworkPageProps) 
       <main className="mx-auto w-full max-w-5xl px-lg py-section">
         <BackLink />
         <h1 className="font-display text-heading-xl text-ink">Edit Artwork</h1>
-        <p className="mt-lg text-body-md text-mute">{artwork.title}</p>
+        <p className="mt-lg text-body-md text-mute">{artworkAdminLabel(artwork)}</p>
 
         <section className="mt-xl border border-hairline bg-canvas p-xl">
           <ArtworkForm

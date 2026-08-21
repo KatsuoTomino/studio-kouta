@@ -124,15 +124,31 @@ export function ArtworkForm({
 
         <div className="flex flex-col gap-lg">
           <div className="flex flex-col gap-xs">
-            <label htmlFor="title" className={formLabelClass}>
-              Title
+            <label htmlFor="titleJa" className={formLabelClass}>
+              Title (Japanese)
             </label>
             <input
-              id="title"
-              name="title"
+              id="titleJa"
+              name="titleJa"
               type="text"
               required
-              defaultValue={artwork?.title}
+              lang="ja"
+              defaultValue={artwork?.titleJa}
+              className={formFieldClass}
+            />
+          </div>
+
+          <div className="flex flex-col gap-xs">
+            <label htmlFor="titleEn" className={formLabelClass}>
+              Title (English)
+            </label>
+            <input
+              id="titleEn"
+              name="titleEn"
+              type="text"
+              required
+              lang="en"
+              defaultValue={artwork?.titleEn}
               className={formFieldClass}
             />
           </div>
@@ -153,15 +169,31 @@ export function ArtworkForm({
           </div>
 
           <div className="flex flex-col gap-xs">
-            <label htmlFor="comment" className={formLabelClass}>
-              Comment
+            <label htmlFor="commentJa" className={formLabelClass}>
+              Comment (Japanese)
             </label>
             <textarea
-              id="comment"
-              name="comment"
+              id="commentJa"
+              name="commentJa"
               required
-              rows={6}
-              defaultValue={artwork?.comment}
+              rows={5}
+              lang="ja"
+              defaultValue={artwork?.commentJa}
+              className={`${formFieldClass} resize-y`}
+            />
+          </div>
+
+          <div className="flex flex-col gap-xs">
+            <label htmlFor="commentEn" className={formLabelClass}>
+              Comment (English)
+            </label>
+            <textarea
+              id="commentEn"
+              name="commentEn"
+              required
+              rows={5}
+              lang="en"
+              defaultValue={artwork?.commentEn}
               className={`${formFieldClass} resize-y`}
             />
           </div>

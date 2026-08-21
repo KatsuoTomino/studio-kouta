@@ -97,17 +97,32 @@ export function ProfileForm({ profile, action }: ProfileFormProps) {
           </div>
 
           <div className="flex flex-col gap-xs">
-            <label htmlFor="bio" className={formLabelClass}>
-              Bio
+            <label htmlFor="bioJa" className={formLabelClass}>
+              Bio (Japanese)
             </label>
             <textarea
-              id="bio"
-              name="bio"
+              id="bioJa"
+              name="bioJa"
               required
-              rows={8}
-              defaultValue={profile.bio}
+              rows={6}
+              lang="ja"
+              defaultValue={profile.bioJa}
               className={`${formFieldClass} resize-y`}
+            />
+          </div>
+
+          <div className="flex flex-col gap-xs">
+            <label htmlFor="bioEn" className={formLabelClass}>
+              Bio (English)
+            </label>
+            <textarea
+              id="bioEn"
+              name="bioEn"
+              required
+              rows={6}
               lang="en"
+              defaultValue={profile.bioEn}
+              className={`${formFieldClass} resize-y`}
             />
           </div>
         </div>

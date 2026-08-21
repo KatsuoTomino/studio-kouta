@@ -4,7 +4,8 @@ import { BackLink } from "@/components/layout/BackLink";
 import { Footer } from "@/components/lp/Footer";
 import { ProfileAvatar } from "@/components/lp/ProfileAvatar";
 import { getProfile } from "@/lib/turso/profile";
-import { getDictionary } from "@/lib/i18n/get-locale";
+import { getDictionary, getLocale } from "@/lib/i18n/get-locale";
+import { localizedProfileBio } from "@/lib/i18n/localized";
 import {
   ARTIST_NAME_EN,
   ARTIST_NAME_JA,
@@ -15,7 +16,7 @@ import {
 
 export async function generateMetadata(): Promise<Metadata> {
   const profile = await getProfile();
-  const trimmedBio = profile.bio.trim();
+  const trimmedBio = profile.bioJa.trim();
   const description = trimmedBio
     ? `沖縄のアーティスト${ARTIST_NAME_JA}（${ARTIST_NAME_EN}）— ${trimmedBio.slice(0, 100)}${trimmedBio.length > 100 ? "…" : ""}`
     : PROFILE_PAGE_FALLBACK_DESCRIPTION;
@@ -38,7 +39,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProfilePage() {
-  const [profile, dict] = await Promise.all([getProfile(), getDictionary()]);
+  const [profile, dict, locale] = await Promise.all([
+    getProfile(),
+    getDictionary(),
+    getLocale(),
+  ]);
+  const bio = localizedProfileBio(profile, locale);
 
   return (
     <>
@@ -66,9 +72,9 @@ export default async function ProfilePage() {
           <p className="font-display text-heading-lg text-ink">
             {profile.name || `${ARTIST_NAME_JA} / ${SITE_NAME}`}
           </p>
-          {profile.bio ? (
+          {bio ? (
             <p className="text-body-md leading-relaxed text-body">
-              {profile.bio}
+              {bio}
             </p>
           ) : null}
         </div>

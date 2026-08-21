@@ -9,10 +9,11 @@ export type ProfileRecord = Profile & {
 
 function rowToProfile(row: Record<string, unknown>): ProfileRecord {
   return {
-    name: String(row.name ?? row[1]),
-    bio: String(row.bio ?? row[2]),
-    imageUrl: String(row.image_url ?? row[3]),
-    imageKey: String(row.image_key ?? row[4] ?? ""),
+    name: String(row.name ?? ""),
+    bioJa: String(row.bio ?? ""),
+    bioEn: String(row.bio_en ?? ""),
+    imageUrl: String(row.image_url ?? ""),
+    imageKey: String(row.image_key ?? ""),
   };
 }
 
@@ -20,7 +21,8 @@ export async function getProfile(): Promise<Profile> {
   const record = await getProfileRecord();
   return {
     name: record.name,
-    bio: record.bio,
+    bioJa: record.bioJa,
+    bioEn: record.bioEn,
     imageUrl: record.imageUrl,
   };
 }
@@ -31,7 +33,7 @@ export async function getProfileRecord(): Promise<ProfileRecord> {
   const client = getTursoClient();
   const rs = await client.execute(
     `
-    SELECT id, name, bio, image_url, image_key
+    SELECT id, name, bio, bio_en, image_url, image_key
     FROM profile
     WHERE id = ?
     LIMIT 1
@@ -52,7 +54,8 @@ export async function getProfileRecord(): Promise<ProfileRecord> {
 
 export type ProfileUpdateInput = {
   name: string;
-  bio: string;
+  bioJa: string;
+  bioEn: string;
   imageUrl: string;
   imageKey: string;
 };
@@ -66,12 +69,13 @@ export async function updateProfile(input: ProfileUpdateInput): Promise<ProfileR
   await client.execute(
     `
     UPDATE profile
-    SET name = ?, bio = ?, image_url = ?, image_key = ?, updated_at = ?
+    SET name = ?, bio = ?, bio_en = ?, image_url = ?, image_key = ?, updated_at = ?
     WHERE id = ?
   `,
     [
       input.name,
-      input.bio,
+      input.bioJa,
+      input.bioEn,
       input.imageUrl,
       input.imageKey,
       now,
@@ -81,7 +85,8 @@ export async function updateProfile(input: ProfileUpdateInput): Promise<ProfileR
 
   return {
     name: input.name,
-    bio: input.bio,
+    bioJa: input.bioJa,
+    bioEn: input.bioEn,
     imageUrl: input.imageUrl,
     imageKey: input.imageKey,
   };

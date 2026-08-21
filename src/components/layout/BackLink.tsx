@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { useI18n } from "@/components/i18n/LocaleProvider";
+import { getDictionary } from "@/lib/i18n/get-locale";
 import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
 
 type BackButtonProps = {
@@ -9,8 +7,8 @@ type BackButtonProps = {
   className?: string;
 };
 
-export function BackButton({ href = "/", className = "" }: BackButtonProps) {
-  const { dict } = useI18n();
+export async function BackButton({ href = "/", className = "" }: BackButtonProps) {
+  const dict = await getDictionary();
 
   return (
     <Link href={href} className={`${outlineAuthButtonClass} ${className}`}>
@@ -21,7 +19,7 @@ export function BackButton({ href = "/", className = "" }: BackButtonProps) {
 
 type BackLinkProps = BackButtonProps;
 
-export function BackLink({ href = "/", className = "" }: BackLinkProps) {
+export async function BackLink({ href = "/", className = "" }: BackLinkProps) {
   return (
     <div className="mb-lg flex w-full justify-end">
       <BackButton href={href} className={className} />

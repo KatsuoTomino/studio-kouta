@@ -2,16 +2,21 @@
 
 import Image from "next/image";
 import { useEffect } from "react";
-import { useI18n } from "@/components/i18n/LocaleProvider";
-import type { Artwork } from "@/types/artwork";
+import type { DisplayArtwork } from "@/types/artwork";
 
 type LightboxProps = {
-  artwork: Artwork | null;
+  artwork: DisplayArtwork | null;
   onClose: () => void;
+  closeLabel: string;
+  exhibitSuffix: string;
 };
 
-export function Lightbox({ artwork, onClose }: LightboxProps) {
-  const { dict } = useI18n();
+export function Lightbox({
+  artwork,
+  onClose,
+  closeLabel,
+  exhibitSuffix,
+}: LightboxProps) {
   useEffect(() => {
     if (!artwork) return;
 
@@ -35,7 +40,7 @@ export function Lightbox({ artwork, onClose }: LightboxProps) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 p-lg backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-label={`${artwork.title}${dict.lightbox.exhibitSuffix}`}
+      aria-label={`${artwork.title}${exhibitSuffix}`}
       onClick={onClose}
     >
       <div
@@ -46,7 +51,7 @@ export function Lightbox({ artwork, onClose }: LightboxProps) {
           type="button"
           onClick={onClose}
           className="absolute right-lg top-lg z-10 flex size-10 items-center justify-center rounded-md bg-surface-card text-ink transition-colors hover:bg-hairline-soft"
-          aria-label={dict.common.close}
+          aria-label={closeLabel}
         >
           ✕
         </button>

@@ -2,9 +2,29 @@ import { getTursoClient } from "./client";
 import { EMPTY_PROFILE, PROFILE_ID } from "./defaults";
 
 let initPromise: Promise<void> | null = null;
+let profileInitPromise: Promise<void> | null = null;
 
 function toIsoNow() {
   return new Date().toISOString();
+}
+
+async function ensureColumn(
+  table: string,
+  column: string,
+  definition: string,
+) {
+  const client = getTursoClient();
+  try {
+    await client.execute(
+      `ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`,
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (/duplicate column name/i.test(message) || /duplicate column/i.test(message)) {
+      return;
+    }
+    throw error;
+  }
 }
 
 async function ensureArtworksTable() {
@@ -16,8 +36,10 @@ async function ensureArtworksTable() {
       CREATE TABLE IF NOT EXISTS artworks (
         id TEXT PRIMARY KEY,
         title TEXT NOT NULL,
+        title_en TEXT NOT NULL DEFAULT '',
         date TEXT NOT NULL,
         comment TEXT NOT NULL,
+        comment_en TEXT NOT NULL DEFAULT '',
         image_url TEXT NOT NULL,
         image_key TEXT NOT NULL DEFAULT '',
         width INTEGER NOT NULL,
@@ -29,6 +51,16 @@ async function ensureArtworksTable() {
       `,
     ],
     "write",
+  );
+
+  await ensureColumn("artworks", "title_en", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("artworks", "comment_en", "TEXT NOT NULL DEFAULT ''");
+
+  await client.execute(
+    "UPDATE artworks SET title_en = title WHERE title_en = '' AND title != ''",
+  );
+  await client.execute(
+    "UPDATE artworks SET comment_en = comment WHERE comment_en = '' AND comment != ''",
   );
 }
 
@@ -42,6 +74,7 @@ async function ensureProfileTable() {
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         bio TEXT NOT NULL,
+        bio_en TEXT NOT NULL DEFAULT '',
         image_url TEXT NOT NULL,
         image_key TEXT NOT NULL DEFAULT '',
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -49,6 +82,12 @@ async function ensureProfileTable() {
       `,
     ],
     "write",
+  );
+
+  await ensureColumn("profile", "bio_en", "TEXT NOT NULL DEFAULT ''");
+
+  await client.execute(
+    "UPDATE profile SET bio_en = bio WHERE bio_en = '' AND bio != ''",
   );
 }
 
@@ -66,13 +105,14 @@ async function seedProfileIfEmpty() {
 
   await client.execute(
     `
-      INSERT INTO profile (id, name, bio, image_url, image_key, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO profile (id, name, bio, bio_en, image_url, image_key, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `,
     [
       PROFILE_ID,
       EMPTY_PROFILE.name,
-      EMPTY_PROFILE.bio,
+      EMPTY_PROFILE.bioJa,
+      EMPTY_PROFILE.bioEn,
       EMPTY_PROFILE.imageUrl,
       "",
       now,
@@ -81,8 +121,14 @@ async function seedProfileIfEmpty() {
 }
 
 export async function initTursoProfile() {
-  await ensureProfileTable();
-  await seedProfileIfEmpty();
+  if (profileInitPromise) return profileInitPromise;
+
+  profileInitPromise = (async () => {
+    await ensureProfileTable();
+    await seedProfileIfEmpty();
+  })();
+
+  return profileInitPromise;
 }
 
 async function ensureHeroSlidesTable() {

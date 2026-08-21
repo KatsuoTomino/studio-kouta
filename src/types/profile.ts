@@ -1,5 +1,6 @@
 export type Profile = {
   name: string;
   imageUrl: string;
-  bio: string;
+  bioJa: string;
+  bioEn: string;
 };

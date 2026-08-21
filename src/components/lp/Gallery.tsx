@@ -1,16 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import type { Artwork } from "@/types/artwork";
+import { useEffect, useState } from "react";
+import type { DisplayArtwork } from "@/types/artwork";
 import { ArtworkCard } from "./ArtworkCard";
 import { Lightbox } from "./Lightbox";
 
 type GalleryProps = {
-  artworks: Artwork[];
+  artworks: DisplayArtwork[];
+  closeLabel: string;
+  exhibitSuffix: string;
 };
 
-export function Gallery({ artworks }: GalleryProps) {
-  const [selected, setSelected] = useState<Artwork | null>(null);
+export function Gallery({ artworks, closeLabel, exhibitSuffix }: GalleryProps) {
+  const [selected, setSelected] = useState<DisplayArtwork | null>(null);
+
+  useEffect(() => {
+    setSelected((current) => {
+      if (!current) return null;
+      return artworks.find((artwork) => artwork.id === current.id) ?? null;
+    });
+  }, [artworks]);
 
   return (
     <section id="gallery" className="border-t border-hairline-soft px-lg pb-section pt-section">
@@ -26,7 +35,12 @@ export function Gallery({ artworks }: GalleryProps) {
         </div>
       </div>
 
-      <Lightbox artwork={selected} onClose={() => setSelected(null)} />
+      <Lightbox
+        artwork={selected}
+        onClose={() => setSelected(null)}
+        closeLabel={closeLabel}
+        exhibitSuffix={exhibitSuffix}
+      />
     </section>
   );
 }

@@ -1,8 +1,7 @@
-"use client";
-
 import type { Profile } from "@/types/profile";
 import type { HeroSlide } from "@/types/hero-slide";
-import { useI18n } from "@/components/i18n/LocaleProvider";
+import { getDictionary, getLocale } from "@/lib/i18n/get-locale";
+import { localizedProfileBio } from "@/lib/i18n/localized";
 import { HeroScrollPanels } from "./HeroScrollPanels";
 import { ProfileAvatar } from "./ProfileAvatar";
 
@@ -11,8 +10,9 @@ type HeroProps = {
   profile: Profile;
 };
 
-export function Hero({ slides, profile }: HeroProps) {
-  const { dict } = useI18n();
+export async function Hero({ slides, profile }: HeroProps) {
+  const [dict, locale] = await Promise.all([getDictionary(), getLocale()]);
+  const bio = localizedProfileBio(profile, locale);
 
   return (
     <section className="flex flex-col items-center pb-section pt-xl">
@@ -65,9 +65,9 @@ export function Hero({ slides, profile }: HeroProps) {
 
         <div className="mt-lg flex w-full max-w-content flex-col items-center gap-md">
           <ProfileAvatar name={profile.name} imageUrl={profile.imageUrl} />
-          {profile.bio ? (
+          {bio ? (
             <p className="w-full text-sm leading-relaxed text-mute">
-              {profile.bio}
+              {bio}
             </p>
           ) : null}
         </div>

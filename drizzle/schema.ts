@@ -3,8 +3,10 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export const artworks = sqliteTable("artworks", {
   id: text("id").primaryKey(),
   title: text("title").notNull(),
+  titleEn: text("title_en").notNull(),
   date: text("date").notNull(),
   comment: text("comment").notNull(),
+  commentEn: text("comment_en").notNull(),
   imageUrl: text("image_url").notNull(),
   imageKey: text("image_key").notNull(),
   width: integer("width").notNull(),
@@ -18,6 +20,7 @@ export const profile = sqliteTable("profile", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   bio: text("bio").notNull(),
+  bioEn: text("bio_en").notNull(),
   imageUrl: text("image_url").notNull(),
   imageKey: text("image_key").notNull(),
   updatedAt: text("updated_at").notNull(),
