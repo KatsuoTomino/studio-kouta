@@ -28,7 +28,7 @@ export const dictionaries = {
       tagline: "こうたワールドへようこそ！",
     },
     work: {
-      title: "こうたの絵・作品ギャラリー",
+      title: "Work",
       intro: "こうた（Kouta）の絵画とイラスト。オンラインでご覧いただけます。",
     },
     profile: {
@@ -69,7 +69,7 @@ export const dictionaries = {
       tagline: "Welcome to Kouta World!",
     },
     work: {
-      title: "Kouta's paintings and gallery",
+      title: "Work",
       intro: "Paintings and illustrations by Kouta. View them online.",
     },
     profile: {
