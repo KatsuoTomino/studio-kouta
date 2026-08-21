@@ -10,7 +10,7 @@ export default async function EditProfilePage() {
   return (
     <>
       <main className="mx-auto w-full max-w-5xl px-lg py-section">
-        <BackLink href="/profile" />
+        <BackLink href="/admin" />
         <h1 className="font-display text-heading-xl text-ink">Edit Profile</h1>
         <p className="mt-lg text-body-md text-mute">{profile.name}</p>
 

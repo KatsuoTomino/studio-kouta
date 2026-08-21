@@ -76,6 +76,7 @@ export async function updateProfileAction(
 
   revalidatePath("/");
   revalidatePath("/profile");
+  revalidatePath("/admin");
   revalidatePath("/admin/profile/edit");
-  redirect("/profile");
+  redirect("/admin");
 }

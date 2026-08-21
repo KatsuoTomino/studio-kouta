@@ -20,9 +20,14 @@ export default async function AdminPage() {
               {artworks.length} artwork{artworks.length === 1 ? "" : "s"}
             </p>
           </div>
-          <Link href="/admin/artworks/new" className={outlineAuthButtonClass}>
-            Add Artwork
-          </Link>
+          <div className="flex flex-wrap gap-md">
+            <Link href="/admin/profile/edit" className={outlineAuthButtonClass}>
+              Edit Profile
+            </Link>
+            <Link href="/admin/artworks/new" className={outlineAuthButtonClass}>
+              Add Artwork
+            </Link>
+          </div>
         </div>
 
         {artworks.length === 0 ? (

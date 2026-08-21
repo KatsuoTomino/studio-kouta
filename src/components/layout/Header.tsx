@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AddArtworkLink } from "@/components/admin/AddArtworkLink";
 import { EditHeroLink } from "@/components/admin/EditHeroLink";
+import { ProfileEditLink } from "@/components/admin/ProfileEditLink";
 import { LanguageToggle } from "@/components/i18n/LanguageToggle";
 import { useI18n } from "@/components/i18n/LocaleProvider";
 import { AuthNav } from "@/components/layout/AuthNav";
@@ -80,6 +81,7 @@ export function Header() {
           <LanguageToggle />
           <AddArtworkLink />
           <EditHeroLink />
+          <ProfileEditLink />
           <AuthNav />
         </nav>
 
@@ -136,6 +138,7 @@ export function Header() {
             ))}
             <AddArtworkLink onNavigate={closeMenu} mobile />
             <EditHeroLink onNavigate={closeMenu} mobile />
+            <ProfileEditLink onNavigate={closeMenu} mobile />
             <AuthNav onNavigate={closeMenu} mobile />
           </nav>
         </div>

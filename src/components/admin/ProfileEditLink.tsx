@@ -7,10 +7,16 @@ import { outlineAuthButtonClass } from "@/components/layout/auth-button-styles";
 import { isClerkScopedPath } from "@/lib/auth/clerk-scope";
 
 type ProfileEditLinkProps = {
+  onNavigate?: () => void;
   className?: string;
+  mobile?: boolean;
 };
 
-function ProfileEditLinkWithClerk({ className = "" }: ProfileEditLinkProps) {
+function ProfileEditLinkWithClerk({
+  onNavigate,
+  className = "",
+  mobile,
+}: ProfileEditLinkProps) {
   const { isSignedIn, isLoaded } = useAuth();
 
   if (!isLoaded || !isSignedIn) {
@@ -20,7 +26,8 @@ function ProfileEditLinkWithClerk({ className = "" }: ProfileEditLinkProps) {
   return (
     <Link
       href="/admin/profile/edit"
-      className={`${outlineAuthButtonClass} ${className}`}
+      onClick={onNavigate}
+      className={`${outlineAuthButtonClass} ${mobile ? "block py-md text-center" : ""} ${className}`}
     >
       Edit Profile
     </Link>

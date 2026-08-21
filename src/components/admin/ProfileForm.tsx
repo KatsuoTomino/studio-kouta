@@ -145,7 +145,7 @@ export function ProfileForm({ profile, action }: ProfileFormProps) {
 
         <button
           type="button"
-          onClick={() => router.push("/profile")}
+          onClick={() => router.push("/admin")}
           className={outlineAuthButtonClass}
         >
           Cancel
